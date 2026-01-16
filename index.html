@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | Penguin Style</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <!-- Navigation -->
+        <nav class="animate-fade-up">
+            <div class="logo">&lt;/shauqi&gt;</div>
+            <div class="nav-links">
+                <a href="#education" class="btn btn-nav">Pendidikan</a>
+                <a href="#skills" class="btn btn-nav">Keahlian</a>
+                <a href="#contact" class="btn btn-nav">Kontak</a>
+            </div>
+        </nav>
+
+        <!-- Hero Section -->
+        <header class="hero">
+            <div class="profile-wrapper animate-fade-up">
+                <img src="profile.jpg" alt="Shauqi Profile" class="profile-img">
+            </div>
+            <div class="status-badge animate-fade-up delay-100">
+                <i class="fas fa-terminal"></i> System Ready
+            </div>
+            <h1 class="animate-fade-up delay-200">Shauqi</h1>
+            <p class="animate-fade-up delay-300">
+                Saya adalah Shauqi, seorang pengembang web yang memiliki minat untuk ngoding tapi mending tidur.
+            </p>
+        </header>
+
+        <!-- Education Section -->
+        <section id="education" class="animate-fade-up">
+            <h2 class="section-title">Pendidikan</h2>
+            <div class="education-grid">
+                <div class="info-card">
+                    <span class="year">Undergraduate</span>
+                    <h3>Institut Teknologi Nasional</h3>
+                    <p>Informatika.</p>
+                </div>
+                <div class="info-card">
+                    <span class="year">2021-2024</span>
+                    <h3>SMA Negeri 1 Pandeglang</h3>
+                    <p>IPA</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="animate-fade-up">
+            <h2 class="section-title">Keahlian</h2>
+            <div class="info-card">
+                <div class="skills-container">
+                    <div class="skill-tag"><i class="fab fa-html5"></i> HTML5</div>
+                    <div class="skill-tag"><i class="fab fa-css3-alt"></i> CSS3</div>
+                    <div class="skill-tag"><i class="fab fa-js"></i> JavaScript</div>
+                    <div class="skill-tag"><i class="fab fa-python"></i> King Python</div>
+                    <div class="skill-tag"><i class="fas fa-database"></i> Delphi7</div>
+                    <div class="skill-tag"><i class="fab fa-git-alt"></i> Git</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section (Loaded via JS) -->
+        <section id="projects" class="animate-fade-up">
+            <h2 class="section-title">Proyek Unggulan</h2>
+            <div id="project-list" class="education-grid">
+                <!-- Data will be injected here by script.js -->
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="animate-fade-up">
+            <h2 class="section-title">Kontak</h2>
+            <div class="info-card" style="text-align: center; padding: 3rem;">
+                <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Mari Terhubung</h3>
+                <p style="color: var(--text-secondary); margin-bottom: 2rem; max-width: 500px; margin-left: auto; margin-right: auto;">
+                    Apakah Anda memiliki pertanyaan atau ingin berkolaborasi? Jangan ragu untuk menghubungi saya.
+                </p>
+                <div class="contact-actions" style="justify-content: center;">
+                    <a href="mailto:shauqi@gmail.com" class="btn btn-primary">
+                        <i class="fas fa-envelope"></i> Kirim Email
+                    </a>
+                    <a href="#" class="btn btn-outline">
+                        <i class="fab fa-linkedin"></i> LinkedIn
+                    </a>
+                    <a href="#" class="btn btn-outline">
+                        <i class="fab fa-github"></i> Github
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p>Rajasuki &copy; 2026</p>
+        </footer>
+    </div>
+
+    <!-- Custom JS -->
+    <script src="script.js"></script>
+
+</body>
+</html>
