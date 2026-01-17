@@ -3,116 +3,581 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio | Penguin Style</title>
+    <title>Shouqi | Neural Interface v4</title>
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Space+Grotesk:wght@300;500;700&family=Syne:wght@800&display=swap" rel="stylesheet">
     
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+            --bg: #0b0e14;
+            --panel: #11151c;
+            --coral: #f87171;
+            --coral-glow: rgba(248, 113, 113, 0.4);
+            --text: #f1f5f9;
+            --text-dim: #64748b;
+            --border: rgba(248, 113, 113, 0.15);
+            --font-main: 'Space Grotesk', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --font-display: 'Syne', sans-serif;
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: crosshair;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: var(--font-main);
+            overflow-x: hidden;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Technical Background */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image: 
+                linear-gradient(var(--border) 1px, transparent 1px),
+                linear-gradient(90deg, var(--border) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -1;
+            opacity: 0.5;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 80px;
+            height: 100vh;
+            background: var(--panel);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 0;
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-item {
+            width: 100%;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-dim);
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            color: var(--coral);
+            background: rgba(248, 113, 113, 0.05);
+        }
+
+        .nav-item.active::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            height: 40%;
+            width: 3px;
+            background: var(--coral);
+            box-shadow: 0 0 10px var(--coral);
+        }
+
+        /* Main Content Wrapper */
+        main {
+            margin-left: 80px;
+            flex: 1;
+            padding: 0 5%;
+        }
+
+        /* Header / Top Bar */
+        .top-bar {
+            height: 80px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--text-dim);
+        }
+
+        .system-time { color: var(--coral); }
+
+        /* Hero Section - Technical Dashboard Style */
+        .hero {
+            padding: 10vh 0;
+            display: grid;
+            grid-template-cols: 1.5fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-info h1 {
+            font-family: var(--font-display);
+            font-size: clamp(3rem, 8vw, 6rem);
+            line-height: 0.9;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+        }
+
+        .hero-info h1 span {
+            color: var(--coral);
+            display: block;
+        }
+
+        .hero-stats {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            padding: 2rem;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .hero-stats::before {
+            content: "SYSTEM_DIAGNOSTIC";
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: var(--bg);
+            padding: 0 10px;
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--coral);
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+        }
+
+        .stat-row span:first-child { color: var(--text-dim); }
+        .stat-row span:last-child { color: var(--text); }
+
+        /* Section Styling */
+        section {
+            padding: 8rem 0;
+            border-top: 1px solid var(--border);
+        }
+
+        .section-header {
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .section-header h2::before {
+            content: "";
+            width: 40px;
+            height: 2px;
+            background: var(--coral);
+        }
+
+        /* Skills Grid */
+        .skills-container {
+            display: grid;
+            grid-template-cols: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .skill-card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            transition: var(--transition);
+        }
+
+        .skill-card:hover {
+            border-color: var(--coral);
+            background: rgba(248, 113, 113, 0.02);
+            transform: translateY(-5px);
+        }
+
+        .skill-card i {
+            font-size: 1.5rem;
+            color: var(--coral);
+        }
+
+        .skill-card h3 {
+            font-family: var(--font-mono);
+            font-size: 1rem;
+            text-transform: uppercase;
+        }
+
+        /* Project Grid */
+        .project-grid {
+            display: grid;
+            grid-template-cols: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-item {
+            border: 1px solid var(--border);
+            background: var(--panel);
+            position: relative;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-item:hover {
+            border-color: var(--coral);
+            box-shadow: 0 10px 30px -10px var(--coral-glow);
+        }
+
+        .project-visual {
+            height: 220px;
+            background: #000;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .project-visual img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.6;
+            transition: var(--transition);
+        }
+
+        .project-item:hover .project-visual img {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+
+        .project-body {
+            padding: 2rem;
+        }
+
+        .project-tag {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--coral);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .project-body h3 {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .project-footer {
+            padding: 1.5rem 2rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Contact Section */
+        .contact-area {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .contact-area h2 {
+            font-size: 4rem;
+            margin-bottom: 2rem;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-cols: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 3rem;
+        }
+
+        .contact-link {
+            border: 1px solid var(--border);
+            padding: 2rem;
+            text-decoration: none;
+            color: var(--text);
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            transition: var(--transition);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .contact-link:hover {
+            background: var(--coral);
+            color: var(--bg);
+            border-color: var(--coral);
+        }
+
+        /* Scroll Progress Bar */
+        #progress {
+            position: fixed;
+            top: 0;
+            left: 80px;
+            height: 3px;
+            background: var(--coral);
+            z-index: 1001;
+            width: 0%;
+            box-shadow: 0 0 10px var(--coral);
+        }
+
+        /* Footer */
+        footer {
+            padding: 4rem 0;
+            border-top: 1px solid var(--border);
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: var(--transition);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 992px) {
+            .hero { grid-template-cols: 1fr; }
+            .sidebar { width: 60px; }
+            main { margin-left: 60px; }
+            #progress { left: 60px; }
+            .project-grid { grid-template-cols: 1fr; }
+            .contact-grid { grid-template-cols: 1fr; }
+        }
+    </style>
 </head>
 <body>
 
-    <div class="container">
-        <!-- Navigation -->
-        <nav class="animate-fade-up">
-            <div class="logo">&lt;/shauqi&gt;</div>
-            <div class="nav-links">
-                <a href="#education" class="btn btn-nav">Pendidikan</a>
-                <a href="#skills" class="btn btn-nav">Keahlian</a>
-                <a href="#contact" class="btn btn-nav">Kontak</a>
-            </div>
-        </nav>
+    <div id="progress"></div>
+
+    <nav class="sidebar">
+        <div class="logo" style="font-weight: 900; color: var(--coral); margin-bottom: 3rem;">S_H</div>
+        <a href="#home" class="nav-item active"><i class="fas fa-terminal"></i></a>
+        <a href="#about" class="nav-item"><i class="fas fa-user-gear"></i></a>
+        <a href="#work" class="nav-item"><i class="fas fa-code-branch"></i></a>
+        <a href="#contact" class="nav-item"><i class="fas fa-satellite-dish"></i></a>
+    </nav>
+
+    <main>
+        <div class="top-bar">
+            <div>STATUS: <span style="color: #4ade80;">ONLINE</span></div>
+            <div>[ IP: 192.168.1.104 ]</div>
+            <div class="system-time" id="clock">00:00:00</div>
+        </div>
 
         <!-- Hero Section -->
-        <header class="hero">
-            <div class="profile-wrapper animate-fade-up">
-                <img src="profile.jpg" alt="Shauqi Profile" class="profile-img">
+        <header class="hero" id="home">
+            <div class="hero-info">
+                <span style="font-family: var(--font-mono); color: var(--coral); letter-spacing: 5px;">DEVELOPER_MODULE_LOADED</span>
+                <h1>SHOUQI HAZ <span>YANNUAR.</span></h1>
+                <p style="font-size: 1.2rem; color: var(--text-dim); max-width: 600px;">
+                    Membangun arsitektur digital melalui kode yang dienkripsi dengan presisi tinggi dan estetika modern.
+                </p>
             </div>
-            <div class="status-badge animate-fade-up delay-100">
-                <i class="fas fa-terminal"></i> System Ready
+            <div class="hero-stats">
+                <div class="stat-row"><span>IDENTITY</span><span>Human / Dev</span></div>
+                <div class="stat-row"><span>EXPERIENCE</span><span>Junior Web Arch.</span></div>
+                <div class="stat-row"><span>LOCATION</span><span>Indonesia, Banten</span></div>
+                <div class="stat-row"><span>STATUS</span><span>Available</span></div>
+                <div class="stat-row"><span>LAST_LOGIN</span><span>Jan 17, 2026</span></div>
             </div>
-            <h1 class="animate-fade-up delay-200">Shauqi</h1>
-            <p class="animate-fade-up delay-300">
-                Saya adalah Shauqi, seorang pengembang web yang memiliki minat untuk ngoding tapi mending tidur.
-            </p>
         </header>
 
-        <!-- Education Section -->
-        <section id="education" class="animate-fade-up">
-            <h2 class="section-title">Pendidikan</h2>
-            <div class="education-grid">
-                <div class="info-card">
-                    <span class="year">Undergraduate</span>
-                    <h3>Institut Teknologi Nasional</h3>
-                    <p>Informatika.</p>
-                </div>
-                <div class="info-card">
-                    <span class="year">2021-2024</span>
-                    <h3>SMA Negeri 1 Pandeglang</h3>
-                    <p>IPA</p>
-                </div>
+        <!-- Information / Skills -->
+        <section id="about" class="reveal">
+            <div class="section-header">
+                <h2>Spesifikasi Teknik</h2>
             </div>
-        </section>
-
-        <!-- Skills Section -->
-        <section id="skills" class="animate-fade-up">
-            <h2 class="section-title">Keahlian</h2>
-            <div class="info-card">
-                <div class="skills-container">
-                    <div class="skill-tag"><i class="fab fa-html5"></i> HTML5</div>
-                    <div class="skill-tag"><i class="fab fa-css3-alt"></i> CSS3</div>
-                    <div class="skill-tag"><i class="fab fa-js"></i> JavaScript</div>
-                    <div class="skill-tag"><i class="fab fa-python"></i> King Python</div>
-                    <div class="skill-tag"><i class="fas fa-database"></i> Delphi7</div>
-                    <div class="skill-tag"><i class="fab fa-git-alt"></i> Git</div>
+            <div class="skills-container">
+                <div class="skill-card">
+                    <i class="fab fa-js"></i>
+                    <h3>JavaScript</h3>
+                    <p style="font-size: 0.85rem; color: var(--text-dim);">Pengembangan frontend reaktif dan logika dinamis.</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fab fa-python"></i>
+                    <h3>Python</h3>
+                    <p style="font-size: 0.85rem; color: var(--text-dim);">Skrip sistem, pemrosesan data, dan backend.</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fas fa-database"></i>
+                    <h3>SQL / Delphi</h3>
+                    <p style="font-size: 0.85rem; color: var(--text-dim);">Manajemen basis data dan sistem aplikasi legacy.</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fab fa-linux"></i>
+                    <h3>System Admin</h3>
+                    <p style="font-size: 0.85rem; color: var(--text-dim);">Optimasi Linux, Shell Scripting, dan Docker.</p>
                 </div>
             </div>
         </section>
 
-        <!-- Projects Section (Loaded via JS) -->
-        <section id="projects" class="animate-fade-up">
-            <h2 class="section-title">Proyek Unggulan</h2>
-            <div id="project-list" class="education-grid">
-                <!-- Data will be injected here by script.js -->
+        <!-- Projects -->
+        <section id="work" class="reveal">
+            <div class="section-header">
+                <h2>Arsip Proyek</h2>
+            </div>
+            <div class="project-grid">
+                
+                <div class="project-item">
+                    <div class="project-visual">
+                        <span class="project-tag">DISTRO_ARCHITECTURE</span>
+                        <img src="https://images.unsplash.com/photo-1629654297299-c8506221ca97?q=80&w=1000&auto=format&fit=crop" alt="Penguin OS">
+                    </div>
+                    <div class="project-body">
+                        <h3>Penguin OS</h3>
+                        <p style="color: var(--text-dim); font-size: 0.95rem;">Distribusi Linux berbasis Arch yang dikustomisasi untuk workstation pengembang.</p>
+                    </div>
+                    <div class="project-footer">
+                        <span style="font-family: var(--font-mono); font-size: 0.7rem;">BUILD_STABLE_V1.0</span>
+                        <a href="#" style="color: var(--coral); text-decoration: none; font-size: 0.8rem; font-weight: bold;">AKSES_FILE</a>
+                    </div>
+                </div>
+
+                <div class="project-item">
+                    <div class="project-visual">
+                        <span class="project-tag">NETWORK_SECURITY</span>
+                        <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1000&auto=format&fit=crop" alt="Core Scanner">
+                    </div>
+                    <div class="project-body">
+                        <h3>Core Scanner</h3>
+                        <p style="color: var(--text-dim); font-size: 0.95rem;">Audit keamanan otomatis untuk infrastruktur jaringan lokal dan server.</p>
+                    </div>
+                    <div class="project-footer">
+                        <span style="font-family: var(--font-mono); font-size: 0.7rem;">ENCRYPTED_AUTH</span>
+                        <a href="#" style="color: var(--coral); text-decoration: none; font-size: 0.8rem; font-weight: bold;">AKSES_FILE</a>
+                    </div>
+                </div>
+
             </div>
         </section>
 
-        <!-- Contact Section -->
-        <section id="contact" class="animate-fade-up">
-            <h2 class="section-title">Kontak</h2>
-            <div class="info-card" style="text-align: center; padding: 3rem;">
-                <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Mari Terhubung</h3>
-                <p style="color: var(--text-secondary); margin-bottom: 2rem; max-width: 500px; margin-left: auto; margin-right: auto;">
-                    Apakah Anda memiliki pertanyaan atau ingin berkolaborasi? Jangan ragu untuk menghubungi saya.
-                </p>
-                <div class="contact-actions" style="justify-content: center;">
-                    <a href="mailto:shauqi@gmail.com" class="btn btn-primary">
-                        <i class="fas fa-envelope"></i> Kirim Email
+        <!-- Contact -->
+        <section id="contact" class="reveal">
+            <div class="contact-area">
+                <span style="font-family: var(--font-mono); color: var(--coral);">INITIALIZING_COMM_PROTOCOL</span>
+                <h2 style="font-family: var(--font-display);">HUBUNGI SYSTEM.</h2>
+                <div class="contact-grid">
+                    <a href="mailto:shauqi@gmail.com" class="contact-link">
+                        <span>EMAIL_SERVER</span>
+                        <i class="fas fa-envelope"></i>
                     </a>
-                    <a href="#" class="btn btn-outline">
-                        <i class="fab fa-linkedin"></i> LinkedIn
+                    <a href="#" class="contact-link">
+                        <span>GITHUB_REPOS</span>
+                        <i class="fab fa-github"></i>
                     </a>
-                    <a href="#" class="btn btn-outline">
-                        <i class="fab fa-github"></i> Github
+                    <a href="#" class="contact-link">
+                        <span>LINKEDIN_PROF</span>
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="#" class="contact-link">
+                        <span>DISCORD_NODE</span>
+                        <i class="fab fa-discord"></i>
                     </a>
                 </div>
             </div>
         </section>
 
-        <!-- Footer -->
         <footer>
-            <p>Rajasuki &copy; 2026</p>
+            <div>[ SHOUQI HAZ YANNUAR // PORTFOLIO 2026 ]</div>
+            <div>BUILT_ON: NEURAL_UI_V4.0</div>
+            <div>[ ACCESS: PUBLIC ]</div>
         </footer>
-    </div>
+    </main>
 
-    <!-- Custom JS -->
-    <script src="script.js"></script>
+    <script>
+        // Clock Function
+        function updateClock() {
+            const now = new Date();
+            const timeStr = now.getHours().toString().padStart(2, '0') + ":" + 
+                            now.getMinutes().toString().padStart(2, '0') + ":" + 
+                            now.getSeconds().toString().padStart(2, '0');
+            document.getElementById('clock').innerText = timeStr;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
 
+        // Scroll Progress & Active Nav
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById("progress").style.width = scrolled + "%";
+
+            // Active Menu Logic
+            const sections = document.querySelectorAll('section, header');
+            const navItems = document.querySelectorAll('.nav-item');
+            
+            sections.forEach(sec => {
+                const top = window.scrollY;
+                const offset = sec.offsetTop - 150;
+                const height = sec.offsetHeight;
+                const id = sec.getAttribute('id');
+
+                if (top >= offset && top < offset + height) {
+                    navItems.forEach(item => {
+                        item.classList.remove('active');
+                        if (item.getAttribute('href') === '#' + id) {
+                            item.classList.add('active');
+                        }
+                    });
+                }
+            });
+        });
+
+        // Scroll Reveal
+        function reveal() {
+            const reveals = document.querySelectorAll(".reveal");
+            reveals.forEach(el => {
+                const windowHeight = window.innerHeight;
+                const elementTop = el.getBoundingClientRect().top;
+                if (elementTop < windowHeight - 150) {
+                    el.classList.add("active");
+                }
+            });
+        }
+        window.addEventListener("scroll", reveal);
+        window.addEventListener("load", reveal);
+    </script>
 </body>
 </html>
